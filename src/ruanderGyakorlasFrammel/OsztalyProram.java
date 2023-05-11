@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Tanulok {
+public class OsztalyProram {
 	private JFrame frame;
 	private static List<Tanulo> tanuloLista = new ArrayList<Tanulo>();
 	
@@ -26,7 +26,7 @@ private JList<String> listElemtanulokLista;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Tanulok window = new Tanulok();
+					OsztalyProram window = new OsztalyProram();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ private JList<String> listElemtanulokLista;
 	/**
 	 * Create the application.
 	 */
-	public Tanulok() {
+	public OsztalyProram() {
 		initialize();
 	}
 
