@@ -17,6 +17,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class OsztalyProram {
 	private JFrame frame;
@@ -77,7 +78,9 @@ public class OsztalyProram {
 		FileHandling.readFile("tanulok.txt", ";", tanuloLista);
 
 		lblOsztalyAtlag = new JLabel("");
-		lblOsztalyAtlag.setBounds(10, 306, 386, 14);
+		lblOsztalyAtlag.setFont(new Font("Times New Roman", Font.PLAIN, 11));
+		lblOsztalyAtlag.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOsztalyAtlag.setBounds(226, 256, 177, 35);
 		addElemToList();
 
 		String column[] = { "Név", "Angol", "Töri", "Matek", "Átlag" };
