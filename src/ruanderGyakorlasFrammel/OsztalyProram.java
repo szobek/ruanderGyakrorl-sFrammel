@@ -100,12 +100,18 @@ public class OsztalyProram {
 	}
 
 	private void setTableTextAlignment() {
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-		for (int i = 1; i < 5; i++) {
-			jtable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		DefaultTableCellRenderer alignRenderer = new DefaultTableCellRenderer();
+		alignRenderer.setHorizontalAlignment(JLabel.CENTER);
+		for (int i = 1; i < 4; i++) {
+			jtable.getColumnModel().getColumn(i).setCellRenderer(alignRenderer);
 		}
-
+		//jtable.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer().setHorizontalAlignment(JLabel.RIGHT));
+		
+		
+		DefaultTableCellRenderer alignRenderer2 = new DefaultTableCellRenderer();
+		alignRenderer2.setHorizontalAlignment(JLabel.RIGHT);
+		jtable.getColumnModel().getColumn(4).setCellRenderer(alignRenderer2);
+		
 	}
 
 	private double sumClassAverage(double all) {
