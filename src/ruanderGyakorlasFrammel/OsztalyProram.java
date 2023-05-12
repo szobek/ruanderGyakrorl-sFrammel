@@ -12,6 +12,9 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JTable;
+import javax.swing.border.BevelBorder;
+import javax.swing.JLabel;
 
 public class OsztalyProram {
 	private JFrame frame;
@@ -19,6 +22,10 @@ public class OsztalyProram {
 	
 private DefaultListModel<String> listaModell;
 private JList<String> listElemtanulokLista;
+String data[][];
+
+private JTable j;
+private JLabel lblOsztalyAtlag;
 	/**
 	 * Launch the application.
 	 */
@@ -63,30 +70,60 @@ private JList<String> listElemtanulokLista;
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setTitle( "Osztály");
-		listaModell= new DefaultListModel();
-		
-		/*
-		 *  model = new DefaultListModel();
-    list = new JList(model);
-		 */
 		
 		
 		
 		
 		FileHandling.readFile("tanulok.txt", ";", tanuloLista);
+
+	    lblOsztalyAtlag = new JLabel("");
+	    lblOsztalyAtlag.setBounds(10, 306, 386, 14);
+	   addElemToList();
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(67, 0, 241, 182);
-		frame.getContentPane().add(scrollPane);
-		listElemtanulokLista = new JList(listaModell);
-		scrollPane.setViewportView(listElemtanulokLista);
-		addElemToList();
+	    
+	   String column[]={"Név","Angol","Töri","Matek","Átlag"};         
+	    
+	    
+	    j = new JTable(data, column);
+        j.setBounds(30, 40, 200, 300);
+        JScrollPane sp = new JScrollPane(j);
+        sp.setSize(604, 200);
+        sp.setLocation(20, 20);
+        frame.getContentPane().add(sp);
+        
+        
+        
+        
+        
+        
+	    frame.getContentPane().add(sp);          
+	    
+	    frame.getContentPane().add(lblOsztalyAtlag);
+	    
+	    
+	    frame.setSize(701,400);    
+	    frame.setVisible(true);
+		
+	}
+	
+	private double sumClassAverage(double all) {		
+		return all/tanuloLista.size();
+		
 	}
 	
 	private void addElemToList() {
-		for(Tanulo tanulo:tanuloLista) {
-			listaModell.addElement(tanulo.getNev()+",angol: " +tanulo.getAngol());
+		double atlag = 0;
+		data = new String[tanuloLista.size()][5];
+		for(int i=0;i<tanuloLista.size();i++) {
+			data[i][0]=tanuloLista.get(i).getNev();
+			data[i][1]=tanuloLista.get(i).getAngol()+"";
+			data[i][2]=tanuloLista.get(i).getTori()+"";
+			data[i][3]=tanuloLista.get(i).getMatek()+"";
+			data[i][4]=String.format("%.2f",tanuloLista.get(i).getAtlag());  
+			atlag+=tanuloLista.get(i).getAtlag();
 		}
+		lblOsztalyAtlag.setText("Osztályátlag: "+String.format("%.2f",sumClassAverage(atlag)));
+		
 		
 	}
 }

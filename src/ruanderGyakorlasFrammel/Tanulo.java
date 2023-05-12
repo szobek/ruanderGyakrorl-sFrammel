@@ -5,20 +5,16 @@ public class Tanulo {
 	private int matek;
 	private int angol;
 	private int tori;
+	private double atlag;
 	
 	public Tanulo(String[] csvSor ) {
 		this.nev = csvSor[0];
 		this.matek = Integer.parseInt(csvSor[1]);
 		this.angol = Integer.parseInt(csvSor[2]);
 		this.tori = Integer.parseInt(csvSor[3]);
+		this.atlag=sumAtlag();
 	}
 	
-	public Tanulo(String nev, int matek, int angol, int tori) {
-		this.nev = nev;
-		this.matek = matek;
-		this.angol = angol;
-		this.tori = tori;
-	}
 	public String getNev() {
 		return nev;
 	}
@@ -31,7 +27,15 @@ public class Tanulo {
 	public int getTori() {
 		return tori;
 	}
+	
+	
+	public double getAtlag() {
+		return atlag;
+	}
 
 	
+	private double sumAtlag() {
+		return (matek+angol+tori)/3.0;
+	}
 	
 }
