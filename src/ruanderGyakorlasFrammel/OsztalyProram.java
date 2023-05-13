@@ -1,23 +1,28 @@
 package ruanderGyakorlasFrammel;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.JTable;
-import javax.swing.border.BevelBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.JLabel;
-import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class OsztalyProram {
 	private JFrame frame;
@@ -28,6 +33,10 @@ public class OsztalyProram {
 	String data[][];
 
 	private JTable jtable;
+	String column[] = { "Név", "Angol", "Töri", "Matek", "Átlag" };
+	DefaultTableModel model;
+	
+	
 	private JLabel lblOsztalyAtlag;
 
 	/**
@@ -81,15 +90,20 @@ public class OsztalyProram {
 		lblOsztalyAtlag.setFont(new Font("Times New Roman", Font.PLAIN, 11));
 		lblOsztalyAtlag.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOsztalyAtlag.setBounds(226, 256, 177, 35);
-		addElemToList();
-
-		String column[] = { "Név", "Angol", "Töri", "Matek", "Átlag" };
-
+		
 		jtable = new JTable(data, column);
+
 		jtable.setFont(new Font("Tahoma", Font.ITALIC, 13));
 		jtable.setColumnSelectionAllowed(true);
 		jtable.setCellSelectionEnabled(true);
 		jtable.setBounds(30, 40, 200, 300);
+		model = new DefaultTableModel();
+		jtable.setModel(model);
+		
+		model.setColumnIdentifiers(column);
+		
+		addElemToList();
+		
 		setTableTextAlignment();
 		JScrollPane scroll = new JScrollPane(jtable);
 		scroll.setSize(604, 200);
@@ -97,6 +111,19 @@ public class OsztalyProram {
 		frame.getContentPane().add(scroll);
 		frame.getContentPane().add(scroll);
 		frame.getContentPane().add(lblOsztalyAtlag);
+
+		JButton btnOver4 = new JButton("4 feletti \u00E1tlag\u00FAak");
+		btnOver4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				listOver4AvgPeople();
+			}
+		});
+		btnOver4.setForeground(new Color(51, 0, 153));
+		btnOver4.setBackground(new Color(153, 204, 204));
+		btnOver4.setMnemonic('4');
+		btnOver4.setBounds(421, 231, 122, 23);
+		frame.getContentPane().add(btnOver4);
 		frame.setSize(701, 400);
 		frame.setVisible(true);
 
@@ -108,13 +135,11 @@ public class OsztalyProram {
 		for (int i = 1; i < 4; i++) {
 			jtable.getColumnModel().getColumn(i).setCellRenderer(alignRenderer);
 		}
-		//jtable.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer().setHorizontalAlignment(JLabel.RIGHT));
-		
-		
+
 		DefaultTableCellRenderer alignRenderer2 = new DefaultTableCellRenderer();
 		alignRenderer2.setHorizontalAlignment(JLabel.RIGHT);
 		jtable.getColumnModel().getColumn(4).setCellRenderer(alignRenderer2);
-		
+
 	}
 
 	private double sumClassAverage(double all) {
@@ -122,18 +147,47 @@ public class OsztalyProram {
 
 	}
 
+	private void listOver4AvgPeople() {
+		removeAllRows();
+		int index = 0;
+		for (int i = 0; i < tanuloLista.size(); i++) {
+			if (tanuloLista.get(i).getAtlag() > 4) {
+				  Object[] o = new Object[5];
+				  o[0]=tanuloLista.get(i).getNev();
+				  o[1]=tanuloLista.get(i).getAngol();
+				  o[2]=tanuloLista.get(i).getTori();
+				  o[3]=tanuloLista.get(i).getMatek();
+				  o[4]=String.format("%.2f", tanuloLista.get(i).getAtlag());
+				  model.addRow(o);
+				index++;
+			}
+
+					}
+
+		jtable.repaint();
+	}
+
 	private void addElemToList() {
 		double atlag = 0;
 		data = new String[tanuloLista.size()][5];
 		for (int i = 0; i < tanuloLista.size(); i++) {
-			data[i][0] = tanuloLista.get(i).getNev();
-			data[i][1] = tanuloLista.get(i).getAngol() + "";
-			data[i][2] = tanuloLista.get(i).getTori() + "";
-			data[i][3] = tanuloLista.get(i).getMatek() + "";
-			data[i][4] = String.format("%.2f", tanuloLista.get(i).getAtlag());
+			 Object[] o = new Object[5];
+			o[0] = tanuloLista.get(i).getNev();
+			o[1] = tanuloLista.get(i).getAngol() + "";
+			o[2] = tanuloLista.get(i).getTori() + "";
+			o[3] = tanuloLista.get(i).getMatek() + "";
+			o[4] = String.format("%.3f", tanuloLista.get(i).getAtlag());
 			atlag += tanuloLista.get(i).getAtlag();
+			 model.addRow(o);
 		}
 		lblOsztalyAtlag.setText("Osztályátlag: " + String.format("%.2f", sumClassAverage(atlag)));
 
+	}
+	
+	private void removeAllRows() {
+		int rowCount = model.getRowCount();
+		for (int i = rowCount - 1; i >= 0; i--) {
+		    model.removeRow(i);
+		}
 	}
 }
