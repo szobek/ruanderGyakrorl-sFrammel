@@ -11,6 +11,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class FileHandling {
 
 	public static void readFile(String file, String delimiter, List<Tanulo> lista) {
@@ -31,11 +34,17 @@ public class FileHandling {
 
 	}
 
-	public void writeFile() {
-		try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream("orszagok.csv"), "UTF-8");){
-			
+	public static void writeFile(String file, String delimiter, List<Tanulo> lista, JFrame frame) {
+		try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");){
+			String header = "Név"+delimiter+"Matek"+delimiter+"Angol"+delimiter+"Töri \n";
+			writer.write(header);
+			for(int i=0;i<lista.size();i++) {
+				String sor = lista.get(i).getNev()+delimiter+Integer.valueOf(lista.get(i).getMatek())+delimiter+Integer.valueOf(lista.get(i).getAngol())+delimiter+Integer.valueOf(lista.get(i).getTori())+"\n";
+				writer.write(sor);
+			}
+			JOptionPane.showMessageDialog(frame, "Fájlírás kész van");
 		}catch (IOException e) {
-			// TODO: handle exception
+			JOptionPane.showMessageDialog(frame, "I/O hiba van");
 		}
 		
 
