@@ -1,4 +1,4 @@
-név;matek;angol,töti
+Név;Matek;Angol;Töri 
 Kis Pista;4;5;4
 Teszt Elek;5;4;5
 Csrepes Virág;3;4;5

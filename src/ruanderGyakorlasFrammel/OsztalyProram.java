@@ -1,34 +1,35 @@
 package ruanderGyakorlasFrammel;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class OsztalyProram {
 	private JFrame frame;
@@ -43,6 +44,9 @@ public class OsztalyProram {
 	DefaultTableModel model;
 
 	private JLabel lblOsztalyAtlag;
+	
+	
+	private RowSorter<TableModel> fSorter;
 
 	/**
 	 * Launch the application.
@@ -96,17 +100,23 @@ public class OsztalyProram {
 		lblOsztalyAtlag.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOsztalyAtlag.setBounds(226, 256, 177, 35);
 
-		jtable = new JTable(data, column);
-
+		
+		
+		
+		model = new DefaultTableModel(data,column);
+		jtable = new JTable(model);
+		
+		
 		jtable.setFont(new Font("Tahoma", Font.ITALIC, 13));
-		jtable.setColumnSelectionAllowed(true);
-		jtable.setCellSelectionEnabled(true);
 		jtable.setBounds(30, 40, 200, 300);
-		model = new DefaultTableModel();
-		jtable.setModel(model);
+		jtable.setAutoCreateRowSorter(true);
+		model.setColumnIdentifiers(column);// beállítja az oszlopneveket
 
-		model.setColumnIdentifiers(column);
-
+		
+		
+		
+		
+		
 		addElemToList();
 
 		setTableTextAlignment();
@@ -233,4 +243,6 @@ public class OsztalyProram {
 			model.removeRow(i);
 		}
 	}
+	
+
 }
