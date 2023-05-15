@@ -7,6 +7,16 @@ public class Tanulo {
 	private int tori;
 	private double atlag;
 	
+	public static boolean dialogOpened=false;
+	
+	public Tanulo(String nev, int matek, int angol, int tori) {
+		super();
+		this.nev = nev;
+		this.matek = matek;
+		this.angol = angol;
+		this.tori = tori;
+	}
+
 	public Tanulo(String[] csvSor ) {
 		this.nev = csvSor[0];
 		this.matek = Integer.parseInt(csvSor[1]);

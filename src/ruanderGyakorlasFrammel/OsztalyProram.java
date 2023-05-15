@@ -35,8 +35,6 @@ public class OsztalyProram {
 	private JFrame frame;
 	private static List<Tanulo> tanuloLista = new ArrayList<Tanulo>();
 
-	private DefaultListModel<String> listaModell;
-	private JList<String> listElemtanulokLista;
 	String data[][];
 
 	private JTable jtable;
@@ -46,8 +44,10 @@ public class OsztalyProram {
 	private JLabel lblOsztalyAtlag;
 	
 	
-	private RowSorter<TableModel> fSorter;
 
+	UjTanulo dialog;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -109,7 +109,7 @@ public class OsztalyProram {
 		
 		jtable.setFont(new Font("Tahoma", Font.ITALIC, 13));
 		jtable.setBounds(30, 40, 200, 300);
-		jtable.setAutoCreateRowSorter(true);
+		jtable.setAutoCreateRowSorter(true); // sort a table-hõz
 		model.setColumnIdentifiers(column);// beállítja az oszlopneveket
 
 		
@@ -129,12 +129,12 @@ public class OsztalyProram {
 		//Image frame
 //frame.setIconImage(null);
 		JButton btnOver4 = new JButton("4 feletti \u00E1tlag\u00FAak");
-		btnOver4.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		btnOver4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				listOver4AvgPeople();
 			}
 		});
+		
 		btnOver4.setForeground(new Color(51, 0, 153));
 		btnOver4.setBackground(new Color(153, 204, 204));
 		btnOver4.setMnemonic('4');
@@ -142,15 +142,14 @@ public class OsztalyProram {
 		frame.getContentPane().add(btnOver4);
 		
 				JButton btnNewButton = new JButton("Legal\u00E1bb 3 az \u00E1tlag");
-				btnNewButton.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
 						listOver3AvgPeople();
 					}
-
 				});
+				
 				btnNewButton.setMnemonic('3');
-				btnNewButton.setBounds(421, 310, 144, 23);
+				btnNewButton.setBounds(421, 298, 144, 23);
 				frame.getContentPane().add(btnNewButton);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -169,11 +168,38 @@ public class OsztalyProram {
 	
 		mnNewMenu.add(mntmNewMenuItem);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u00DAj elem");
-		mnNewMenu.add(mntmNewMenuItem_1);
+		JMenuItem menuItemUjElem = new JMenuItem("\u00DAj elem");
+		menuItemUjElem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialog = new UjTanulo(tanuloLista);
+				dialog.setModal(true);
+				dialog.setVisible(true);
+				Tanulo.dialogOpened=true;
+				
+			}
+		});
+		mnNewMenu.add(menuItemUjElem);
+		
+		JButton btnMind = new JButton("Mind");
+		btnMind.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				allPeople();
+			}
+		});
+		btnMind.setMnemonic('3');
+		btnMind.setBounds(421, 338, 144, 23);
+		frame.getContentPane().add(btnMind);
 		frame.setSize(701, 400);
 		frame.setVisible(true);
 
+	}
+	
+	private void allPeople() {
+		removeAllRows();
+		for (int i = 0; i < tanuloLista.size(); i++) {
+			createRows(i);
+		}
+		
 	}
 
 	private void setTableTextAlignment() {
@@ -228,6 +254,7 @@ public class OsztalyProram {
 	}
 
 	private void addElemToList() {
+
 		double atlag = 0;
 		for (int i = 0; i < tanuloLista.size(); i++) {
 			createRows(i);
@@ -235,6 +262,7 @@ public class OsztalyProram {
 		}
 		lblOsztalyAtlag.setText("Osztályátlag: " + String.format("%.2f", sumClassAverage(atlag)));
 
+		
 	}
 
 	private void removeAllRows() {
@@ -243,6 +271,4 @@ public class OsztalyProram {
 			model.removeRow(i);
 		}
 	}
-	
-
 }
