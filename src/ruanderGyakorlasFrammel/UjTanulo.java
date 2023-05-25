@@ -13,8 +13,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import java.awt.event.ActionListener;
 
@@ -83,17 +81,17 @@ public class UjTanulo extends JDialog {
 		
 		
 		cmbMatek = new JComboBox();
-		cmbMatek.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "9", "aa", "sss"}));
+		cmbMatek.setModel(new DefaultComboBoxModel(Jegyek.values()));
 		cmbMatek.setBounds(190, 52, 47, 22);
 		contentPanel.add(cmbMatek);
 		
 		cmbAngol = new JComboBox();
-		cmbAngol.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
+		cmbAngol.setModel(new DefaultComboBoxModel(Jegyek.values()));
 		cmbAngol.setBounds(190, 87, 47, 22);
 		contentPanel.add(cmbAngol);
 		
 		cmbTori = new JComboBox();
-		cmbTori.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
+		cmbTori.setModel(new DefaultComboBoxModel(Jegyek.values()));
 		cmbTori.setBounds(190, 121, 47, 22);
 		contentPanel.add(cmbTori);
 		
