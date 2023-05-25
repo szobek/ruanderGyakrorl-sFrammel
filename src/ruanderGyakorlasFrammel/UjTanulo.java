@@ -83,7 +83,7 @@ public class UjTanulo extends JDialog {
 		
 		
 		cmbMatek = new JComboBox();
-		cmbMatek.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
+		cmbMatek.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "9", "aa", "sss"}));
 		cmbMatek.setBounds(190, 52, 47, 22);
 		contentPanel.add(cmbMatek);
 		

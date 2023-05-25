@@ -5,31 +5,23 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 public class OsztalyProram {
 	private JFrame frame;
@@ -68,6 +60,7 @@ public class OsztalyProram {
 	 * Create the application.
 	 */
 	public OsztalyProram() {
+		new DbHandling().connect();
 		initialize();
 	}
 
@@ -232,6 +225,7 @@ public class OsztalyProram {
 	
 	private void listOver4AvgPeople() {
 		removeAllRows();
+		//tanuloLista.toArray();
 		for (int i = 0; i < tanuloLista.size(); i++) {
 			if (tanuloLista.get(i).getAtlag() > 4) {
 				createRows(i);

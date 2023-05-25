@@ -5,3 +5,4 @@ Csrepes Virág;3;4;5
 Nagy Béla;2;5;4
 Takács Aladár;4;2;4
 Kovács Noémi;4;5;4
+Kiss Béla;2;3;2
