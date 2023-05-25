@@ -60,7 +60,7 @@ public class OsztalyProram {
 	 * Create the application.
 	 */
 	public OsztalyProram() {
-		new DbHandling().connect();
+		
 		initialize();
 	}
 
@@ -86,8 +86,11 @@ public class OsztalyProram {
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("Osztály");
 
-		FileHandling.readFile("tanulok.txt", ";", tanuloLista);
+		//FileHandling.readFile("tanulok.txt", ";", tanuloLista);
 
+		DbHandling dbh = new DbHandling(tanuloLista);
+		dbh.connect();
+		
 		lblOsztalyAtlag = new JLabel("");
 		lblOsztalyAtlag.setFont(new Font("Times New Roman", Font.PLAIN, 11));
 		lblOsztalyAtlag.setHorizontalAlignment(SwingConstants.CENTER);

@@ -15,6 +15,7 @@ public class Tanulo {
 		this.matek = matek;
 		this.angol = angol;
 		this.tori = tori;
+		this.atlag=sumAtlag();
 	}
 
 	public Tanulo(String[] csvSor ) {
