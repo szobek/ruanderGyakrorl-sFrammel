@@ -185,6 +185,19 @@ public class OsztalyProram {
 		btnMind.setMnemonic('3');
 		btnMind.setBounds(421, 338, 144, 23);
 		frame.getContentPane().add(btnMind);
+		
+		JButton btnRefreshTable = new JButton("T\u00E1bla friss\u00EDt\u00E9se");
+		btnRefreshTable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeAllRows();
+				tanuloLista.clear();
+				DbHandling dbh = new DbHandling(tanuloLista);
+				dbh.connect();
+				addElemToList();
+			}
+		});
+		btnRefreshTable.setBounds(36, 259, 155, 23);
+		frame.getContentPane().add(btnRefreshTable);
 		frame.setSize(701, 400);
 		frame.setVisible(true);
 
