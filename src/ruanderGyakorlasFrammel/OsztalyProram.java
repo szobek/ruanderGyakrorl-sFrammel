@@ -19,6 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -30,7 +31,7 @@ public class OsztalyProram {
 	String data[][];
 
 	private JTable jtable;
-	String column[] = { "NÈv", "Angol", "Tˆri", "Matek", "¡tlag" };
+	String column[] = { "N√©v", "Angol", "T√∂ri", "Matek", "√Åtlag" };
 	DefaultTableModel model;
 
 	private JLabel lblOsztalyAtlag;
@@ -38,6 +39,7 @@ public class OsztalyProram {
 	
 
 	UjTanulo dialog;
+	TanuloAdatok adatDialog;
 	
 	
 	/**
@@ -62,6 +64,7 @@ public class OsztalyProram {
 	public OsztalyProram() {
 		
 		initialize();
+		
 	}
 
 	/**
@@ -73,7 +76,7 @@ public class OsztalyProram {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				Object[] opciok = { "Igen", "Nem" };
-				if (JOptionPane.showOptionDialog(frame, "Biztos ki akar lÈpni?", "KilÈpÈs", JOptionPane.YES_NO_OPTION,
+				if (JOptionPane.showOptionDialog(frame, "Biztos ki akar l√©pni?", "Kil√©p√©s", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, opciok, opciok[1]) == JOptionPane.YES_OPTION) {
 
 					System.exit(0);
@@ -84,12 +87,11 @@ public class OsztalyProram {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frame.setTitle("Oszt·ly");
+		frame.setTitle("Oszt√°ly");
 
 		//FileHandling.readFile("tanulok.txt", ";", tanuloLista);
 
-		DbHandling dbh = new DbHandling(tanuloLista);
-		dbh.connect();
+		DbHandling.connect(tanuloLista);
 		
 		lblOsztalyAtlag = new JLabel("");
 		lblOsztalyAtlag.setFont(new Font("Times New Roman", Font.PLAIN, 11));
@@ -100,14 +102,21 @@ public class OsztalyProram {
 		
 		
 		model = new DefaultTableModel(data,column);
-		jtable = new JTable(model);
+		jtable = new JTable(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"N\u00E9v", "Angol", "T\u00F6ri", "Matek", "\u00C1tlag"
+			}
+		));
 		
 		
 		jtable.setFont(new Font("Tahoma", Font.ITALIC, 13));
 		jtable.setBounds(30, 40, 200, 300);
-		jtable.setAutoCreateRowSorter(true); // sort a table-hız
-		model.setColumnIdentifiers(column);// be·llÌtja az oszlopneveket
-
+		jtable.setAutoCreateRowSorter(true); // sort a table-h√µz
+		model.setColumnIdentifiers(column);// be√°ll√≠tja az oszlopneveket
+		jtable.setModel(model);
+		jtable.setSelectionModel(new ForcedListSelectionModel());// ez kell, hogy egy sort v√°lasszon
 		
 		
 		
@@ -191,13 +200,21 @@ public class OsztalyProram {
 			public void actionPerformed(ActionEvent e) {
 				removeAllRows();
 				tanuloLista.clear();
-				DbHandling dbh = new DbHandling(tanuloLista);
-				dbh.connect();
+				DbHandling.connect(tanuloLista);
 				addElemToList();
 			}
 		});
 		btnRefreshTable.setBounds(36, 259, 155, 23);
 		frame.getContentPane().add(btnRefreshTable);
+		
+		JButton btnNewButton_1 = new JButton("Tanul√≥ adatai");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openDataWindow();
+			}
+		});
+		btnNewButton_1.setBounds(46, 298, 145, 23);
+		frame.getContentPane().add(btnNewButton_1);
 		frame.setSize(701, 400);
 		frame.setVisible(true);
 
@@ -205,9 +222,11 @@ public class OsztalyProram {
 	
 	private void allPeople() {
 		removeAllRows();
+		
 		for (int i = 0; i < tanuloLista.size(); i++) {
 			createRows(i);
 		}
+		
 		
 	}
 
@@ -220,7 +239,6 @@ public class OsztalyProram {
 
 		DefaultTableCellRenderer alignRenderer2 = new DefaultTableCellRenderer();
 		alignRenderer2.setHorizontalAlignment(JLabel.RIGHT);
-		jtable.getColumnModel().getColumn(4).setCellRenderer(alignRenderer2);
 
 	}
 
@@ -268,9 +286,10 @@ public class OsztalyProram {
 		double atlag = 0;
 		for (int i = 0; i < tanuloLista.size(); i++) {
 			createRows(i);
+			//System.out.println(tanuloLista.get(i).getNev());
 			atlag += tanuloLista.get(i).getAtlag();
 		}
-		lblOsztalyAtlag.setText("Oszt·ly·tlag: " + String.format("%.2f", sumClassAverage(atlag)));
+		lblOsztalyAtlag.setText("Oszt√°ly√°tlag: " + String.format("%.2f", sumClassAverage(atlag)));
 
 		
 	}
@@ -280,5 +299,19 @@ public class OsztalyProram {
 		for (int i = rowCount - 1; i >= 0; i--) {
 			model.removeRow(i);
 		}
+	}
+	
+	private int getIndexByid(int id) {
+		int i=0;
+		while(i<tanuloLista.size() && tanuloLista.get(i).getId()!=id) {
+			i++;
+		}
+
+		return i;
+	}
+	
+	private void openDataWindow() {
+		
+		//TODO itt lenne a v√°laszt√°s
 	}
 }

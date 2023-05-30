@@ -6,16 +6,18 @@ public class Tanulo {
 	private int angol;
 	private int tori;
 	private double atlag;
+	private int id;
 	
 	public static boolean dialogOpened=false;
 	
-	public Tanulo(String nev, int matek, int angol, int tori) {
+	public Tanulo(String nev, int matek, int angol, int tori,int id) {
 		super();
 		this.nev = nev;
 		this.matek = matek;
 		this.angol = angol;
 		this.tori = tori;
 		this.atlag=sumAtlag();
+		this.id=id;
 	}
 
 	public Tanulo(String[] csvSor ) {
@@ -45,6 +47,11 @@ public class Tanulo {
 	}
 
 	
+	
+	public int getId() {
+		return id;
+	}
+
 	private double sumAtlag() {
 		return (matek+angol+tori)/3.0;
 	}

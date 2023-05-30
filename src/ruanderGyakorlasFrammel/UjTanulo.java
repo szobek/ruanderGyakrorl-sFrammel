@@ -50,7 +50,8 @@ public class UjTanulo extends JDialog {
 			JButton okButton = new JButton("OK");
 			okButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					lista.add(new Tanulo(textFieldNev.getText(),Integer.parseInt(cmbMatek.getSelectedItem().toString()  ) ,3,3));
+					//TODO a konstruktor változott
+					//lista.add(new Tanulo(textFieldNev.getText(),Integer.parseInt(cmbMatek.getSelectedItem().toString()  ) ,3,3));
 				}
 			});
 			okButton.setBounds(57, 181, 76, 23);

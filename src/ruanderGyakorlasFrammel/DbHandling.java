@@ -10,42 +10,38 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class DbHandling {
-	private List<Tanulo> lista;
-	private String dbName = "felhasznalo_db";
-	private String dbUser = "root";
-	private String dbPassword = "";
-	private String dbPort = "3306";
-	private String dbUrl = "localhost";
+	private static List<Tanulo> lista;
+	private static String dbName = "felhasznalo_db";
+	private static String dbUser = "root";
+	private static String dbPassword = "";
+	private static String dbPort = "3306";
+	private static String dbUrl = "localhost";
 
-	public DbHandling(List<Tanulo> lista) {
-		this.lista = lista;
-	}
 
-	public void connect() {
+	public static void connect(List<Tanulo> lista) {
 		try(Connection con = DriverManager.getConnection("jdbc:mysql://" + dbUrl + ":" + dbPort + "/" + dbName + "",
 				dbUser, dbPassword)) {
 			Class.forName("com.mysql.jdbc.Driver");
 			;
 
-			filList(con);
-			System.out.println(lista.size());
+			filList(con,lista);
+			//System.out.println(lista.size());
 		} catch (Exception e) {
 			System.out.println(e);
 			JOptionPane.showMessageDialog(null, "nem sikerült kapcsolódni");
 		}
 	}
 
-	private void filList(Connection con) {
+	private static void filList(Connection con,List<Tanulo> lista) {
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery("select * from osztalyzatok");
 			while (rs.next()) {
-				lista.add(new Tanulo(rs.getString("nev"), rs.getInt("matek"), rs.getInt("angol"), rs.getInt("tori")));
+				lista.add(new Tanulo(rs.getString("nev"), rs.getInt("matek"), rs.getInt("angol"), rs.getInt("tori"), rs.getInt("ID")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
